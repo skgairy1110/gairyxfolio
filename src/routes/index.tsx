@@ -1,6 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, type MouseEvent } from "react";
+import {
+  ArrowUpRight,
+  Sparkles,
+  Layers,
+  Palette,
+  Layout,
+  Download,
+  Mail,
+  Compass,
+} from "lucide-react";
 import profile from "@/data/profile.json";
 import projectsData from "@/data/projects.json";
 import experience from "@/data/experience.json";
@@ -37,8 +47,8 @@ function Index() {
     target: heroRef,
     offset: ["start start", "end start"],
   });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.35]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.4]);
   const networkOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const networkScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
@@ -50,7 +60,7 @@ function Index() {
 
   return (
     <PageTransition>
-      {/* HERO */}
+      {/* HERO SECTION */}
       <section
         ref={heroRef}
         className="hero-cursor-none relative flex min-h-[100svh] items-center overflow-hidden md:min-h-screen"
@@ -65,23 +75,36 @@ function Index() {
 
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
-          className="container-px relative z-10 w-full py-24 md:py-32"
+          className="container-px relative z-10 w-full pt-20 pb-16 md:pt-28 md:pb-24"
         >
+          {/* Top Status & Location Pill */}
           <Reveal>
-            <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
-              <span className="mr-3 inline-block size-2 translate-y-[-1px] animate-pulse rounded-full bg-primary align-middle" />
-              Hi, My name is
-            </p>
+            <div className="inline-flex flex-wrap items-center gap-2.5 rounded-full border border-border/80 bg-card/70 px-4 py-1.5 backdrop-blur-md shadow-sm">
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex size-2 rounded-full bg-primary" />
+              </span>
+              <span className="font-mono-ui text-xs font-medium uppercase tracking-wider text-foreground">
+                Available for select projects
+              </span>
+              <span className="text-muted-foreground/50">•</span>
+              <span className="text-xs font-normal text-muted-foreground">
+                Lead Creative Designer · New Delhi NCR
+              </span>
+            </div>
           </Reveal>
 
-          <h1 className="font-display mt-10 text-balance text-[15vw] leading-[0.88] tracking-tight md:text-[10.5rem]">
-            {profile.name.split(" ").map((word, wi) => (
+          {/* Main Name Display */}
+          <h1 className="font-display mt-8 max-w-full text-balance text-[clamp(2.75rem,8.5vw,9.5rem)] leading-[0.96] tracking-tight md:mt-10">
+            {profile.name.split(" ").map((word, wi, arr) => (
               <span
                 key={word + wi}
-                className="mr-6 inline-block overflow-hidden align-bottom"
+                className={`inline-block overflow-hidden align-bottom pb-4 -mb-4 pt-2 -mt-2 pr-4 -mr-4 ${
+                  wi < arr.length - 1 ? "mr-4 md:mr-6" : ""
+                }`}
               >
                 <motion.span
-                  initial={{ y: "110%" }}
+                  initial={{ y: "125%" }}
                   animate={{ y: 0 }}
                   transition={{
                     duration: 1.15,
@@ -100,15 +123,51 @@ function Index() {
             ))}
           </h1>
 
-          <div className="mt-14 grid gap-10 md:mt-20 md:grid-cols-12">
-            <Reveal className="md:col-span-5 md:col-start-1" delay={0.3}>
-              <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                {profile.title}
-              </p>
-            </Reveal>
-            <Reveal className="md:col-span-6 md:col-start-7" delay={0.4}>
-              <p className="text-pretty text-xl text-foreground/80 md:text-xl">
-                {profile.intro}
+          {/* Core Specialization Pills (High Readability) */}
+          <Reveal delay={0.25}>
+            <div className="mt-8 flex flex-wrap items-center gap-2.5 md:gap-3">
+              {[
+                {
+                  label: "Brand Identity Systems",
+                  icon: Palette,
+                  featured: true,
+                },
+                { label: "UI / UX & Product Design", icon: Layout },
+                { label: "Motion Graphics & 3D", icon: Sparkles },
+                { label: "Print & Editorial Media", icon: Layers },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <span
+                    key={item.label}
+                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs md:text-sm font-medium transition-all ${
+                      item.featured
+                        ? "border border-primary/50 bg-primary/10 text-primary shadow-[0_0_24px_-8px_var(--color-primary)]"
+                        : "border border-border/80 bg-card/60 text-foreground/85 hover:border-border hover:text-foreground"
+                    } backdrop-blur-sm`}
+                  >
+                    <Icon className="size-3.5 text-primary" />
+                    {item.label}
+                  </span>
+                );
+              })}
+            </div>
+          </Reveal>
+
+          {/* Narrative & Credibility Grid */}
+          <div className="mt-12 grid gap-10 md:mt-16 md:grid-cols-12 md:items-end">
+            <Reveal className="md:col-span-7" delay={0.35}>
+              <p className="text-pretty text-lg text-foreground/90 font-light leading-relaxed md:text-2xl">
+                Transforming complex ideas into{" "}
+                <span className="font-medium text-foreground">
+                  high-impact visual identities
+                </span>{" "}
+                and{" "}
+                <span className="font-medium text-foreground">
+                  scalable design systems
+                </span>
+                —helping global SaaS, tech, and travel brands stand out,
+                connect, and convert.
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 <div
@@ -116,8 +175,8 @@ function Index() {
                   onMouseEnter={onCtaEnter}
                   onMouseLeave={onCtaLeave}
                 >
-                  <MagneticButton href={profile.resumeUrl} download>
-                    Download Resume
+                  <MagneticButton to="/work">
+                    Explore Selected Work →
                   </MagneticButton>
                 </div>
                 <div
@@ -125,9 +184,64 @@ function Index() {
                   onMouseEnter={onCtaEnter}
                   onMouseLeave={onCtaLeave}
                 >
-                  <MagneticButton to="/work" variant="ghost">
-                    View Portfolio →
+                  <MagneticButton
+                    href={profile.resumeUrl}
+                    download
+                    variant="ghost"
+                  >
+                    <Download className="size-4 mr-1 inline-block" />
+                    Download Resume
                   </MagneticButton>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Impact Metrics Card */}
+            <Reveal className="md:col-span-5" delay={0.45}>
+              <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border/80 bg-card/50 p-6 backdrop-blur-md shadow-lg">
+                <div className="border-b border-border/50 pb-4">
+                  <p className="font-display text-3xl font-semibold text-primary md:text-4xl">
+                    10+
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-foreground md:text-sm">
+                    Years Craft
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">
+                    Brand, UI/UX, & Motion
+                  </p>
+                </div>
+                <div className="border-b border-border/50 pb-4 pl-2">
+                  <p className="font-display text-3xl font-semibold text-foreground md:text-4xl">
+                    50+
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-foreground md:text-sm">
+                    Major Projects
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">
+                    SaaS, travel-tech & events
+                  </p>
+                </div>
+                <div className="pt-2">
+                  <p className="font-display text-3xl font-semibold text-foreground md:text-4xl">
+                    100%
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-foreground md:text-sm">
+                    Concept to Launch
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">
+                    Strategy, art direction & code
+                  </p>
+                </div>
+                <div className="pt-2 pl-2">
+                  <p className="font-display text-3xl font-semibold text-primary md:text-4xl">
+                    Tier-1
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-foreground md:text-sm">
+                    Global Clients
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">
+                    BotLab, RateGain, Google & more
+                  </p>
                 </div>
               </div>
             </Reveal>
@@ -135,25 +249,33 @@ function Index() {
         </motion.div>
       </section>
 
+      {/* MARQUEE EXPERTISE TICKER */}
       <Marquee items={profile.marquee} />
 
       {/* FEATURED WORK */}
-      <section className="container-px py-24 md:py-40">
-        <div className="flex items-end justify-between gap-6">
+      <section className="container-px py-24 md:py-36">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <Reveal>
-            <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
-              · 01 — Selected Work
-            </p>
-            <h2 className="font-display mt-4 text-5xl leading-[0.95] md:text-7xl">
-              Recent projects.
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3 py-1 text-xs font-mono-ui uppercase tracking-wider text-primary">
+              <span>01</span>
+              <span className="text-muted-foreground/60">/</span>
+              <span>Selected Work</span>
+            </div>
+            <h2 className="font-display mt-4 text-4xl leading-[0.95] md:text-6xl lg:text-7xl">
+              Crafted with purpose & vision.
             </h2>
+            <p className="mt-3 max-w-xl text-base text-foreground/80 md:text-lg">
+              A curated selection of brand identities, digital product systems,
+              print media, and campaigns.
+            </p>
           </Reveal>
           <Reveal>
             <Link
               to="/work"
-              className="hidden text-xs uppercase tracking-[0.25em] text-foreground/70 hover:text-primary md:inline-flex"
+              className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-xs font-medium uppercase tracking-wider text-foreground transition-all hover:border-primary hover:text-primary hover:bg-card"
             >
-              All work →
+              <span>View all projects</span>
+              <ArrowUpRight className="size-4" />
             </Link>
           </Reveal>
         </div>
@@ -182,106 +304,202 @@ function Index() {
       </section>
 
       {/* DIVIDER */}
-      <SectionDivider label="About" index="02" />
+      <SectionDivider label="Philosophy" index="02" />
 
-      {/* ABOUT SNAPSHOT */}
-      <section className="container-px py-24 md:py-40">
-        <div className="grid gap-16 md:grid-cols-12">
+      {/* ABOUT & DESIGN PILLARS */}
+      <section className="container-px py-24 md:py-36">
+        <div className="grid gap-16 md:grid-cols-12 md:items-start">
           <Reveal className="md:col-span-5">
-            <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
-              · 02 — A little about me
-            </p>
-            <h2 className="font-display mt-6 text-5xl leading-[0.95] md:text-7xl">
-              A designer who ships <em className="text-primary">systems</em>,
-              not screens.
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3 py-1 text-xs font-mono-ui uppercase tracking-wider text-primary">
+              <span>02</span>
+              <span className="text-muted-foreground/60">/</span>
+              <span>Design Philosophy</span>
+            </div>
+            <h2 className="font-display mt-6 text-4xl leading-[1] md:text-6xl">
+              A designer who ships{" "}
+              <em className="italic text-primary">systems</em>, not screens.
             </h2>
+            <p className="mt-6 text-base text-foreground/80 md:text-lg leading-relaxed">
+              Twelve years leading creative across branding, motion, and
+              product. Today I build visual systems for ambitious tech companies
+              where clarity meets aesthetic impact.
+            </p>
+            <div className="mt-8">
+              <MagneticButton to="/about" variant="ghost">
+                Read Full Story & Skills →
+              </MagneticButton>
+            </div>
           </Reveal>
-          <div className="space-y-12 md:col-span-6 md:col-start-7">
-            <Reveal>
-              <p className="text-lg text-foreground/80 md:text-xl">
-                Lead Creative Designer with 10+ years of experience in branding,
-                visual communication, print media, video editing & motion
-                graphics, UI/UX, and front-end development. Expert in delivering
-                creative solutions for B2B, SaaS, and agency settings, focusing
-                on consistent brand identities and effective marketing
-                campaigns. Skilled at creating impactful designs for digital and
-                print that boost engagement and business results. Strong in
-                design strategy, teamwork, and leading creative direction from
-                concept to execution.
-              </p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="hairline pt-8">
-                <p className="font-mono-ui mb-4 text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                  Disciplines
+
+          {/* 3 Strategic Pillars Grid */}
+          <div className="space-y-6 md:col-span-7">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Reveal
+                delay={0.1}
+                className="rounded-2xl border border-border/80 bg-card/40 p-6 backdrop-blur-sm"
+              >
+                <Palette className="size-6 mb-4 text-primary" />
+                <h3 className="font-display text-xl font-medium text-foreground">
+                  Brand Identity
+                </h3>
+                <p className="mt-2 text-xs md:text-sm text-foreground/70 leading-relaxed">
+                  Distinctive logo systems, typography, color architecture, and
+                  scalable guidelines for modern enterprises.
                 </p>
-                <ul className="flex flex-wrap gap-2">
-                  {skills.disciplines.map((d) => (
-                    <li
-                      key={d}
-                      className="rounded-full border border-border px-4 py-2 text-sm"
-                    >
-                      {d}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <div className="hairline pt-8">
-                <p className="font-mono-ui mb-4 text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                  Tools
+              </Reveal>
+              <Reveal
+                delay={0.2}
+                className="rounded-2xl border border-border/80 bg-card/40 p-6 backdrop-blur-sm"
+              >
+                <Layout className="size-6 mb-4 text-primary" />
+                <h3 className="font-display text-xl font-medium text-foreground">
+                  Product UI / UX
+                </h3>
+                <p className="mt-2 text-xs md:text-sm text-foreground/70 leading-relaxed">
+                  High-conversion web platforms, SaaS product workflows, and
+                  design systems focused on user engagement.
                 </p>
-                <ul className="flex flex-wrap gap-x-6 gap-y-2 text-foreground/80">
-                  {skills.tools.map((t) => (
-                    <li key={t} className="text-sm">
-                      {t}
-                    </li>
-                  ))}
-                </ul>
+              </Reveal>
+              <Reveal
+                delay={0.3}
+                className="rounded-2xl border border-border/80 bg-card/40 p-6 backdrop-blur-sm"
+              >
+                <Sparkles className="size-6 mb-4 text-primary" />
+                <h3 className="font-display text-xl font-medium text-foreground">
+                  Motion & Print
+                </h3>
+                <p className="mt-2 text-xs md:text-sm text-foreground/70 leading-relaxed">
+                  Editorial whitepapers, rich media ads, motion graphics, and
+                  large-scale event & drone show artwork.
+                </p>
+              </Reveal>
+            </div>
+
+            {/* Disciplines & Tools Chips */}
+            <Reveal
+              delay={0.35}
+              className="rounded-2xl border border-border/80 bg-card/30 p-6"
+            >
+              <div className="flex flex-col gap-6 sm:flex-row sm:justify-between">
+                <div>
+                  <p className="font-mono-ui text-xs uppercase tracking-wider text-primary font-medium mb-3">
+                    Core Disciplines
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {skills.disciplines.slice(0, 6).map((d) => (
+                      <span
+                        key={d}
+                        className="rounded-full border border-border/80 bg-background/50 px-3 py-1 text-xs text-foreground/85"
+                      >
+                        {d}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="font-mono-ui text-xs uppercase tracking-wider text-primary font-medium mb-3">
+                    Tools & Technologies
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {skills.tools.slice(0, 6).map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full border border-border/80 bg-background/50 px-3 py-1 text-xs text-foreground/85"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </Reveal>
           </div>
         </div>
       </section>
 
+      {/* DIVIDER */}
       <SectionDivider label="Experience" index="03" />
 
-      {/* EXPERIENCE */}
-      <section className="container-px py-24 md:py-32">
+      {/* EXPERIENCE SECTION */}
+      <section className="container-px py-24 md:py-36">
         <Reveal>
-          <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            · 03 — Experience
-          </p>
-          <h2 className="font-display mt-6 text-5xl leading-[0.95] md:text-7xl">
-            Where I've designed.
+          <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3 py-1 text-xs font-mono-ui uppercase tracking-wider text-primary">
+            <span>03</span>
+            <span className="text-muted-foreground/60">/</span>
+            <span>Track Record</span>
+          </div>
+          <h2 className="font-display mt-4 text-4xl leading-[0.95] md:text-6xl lg:text-7xl">
+            Where I've delivered impact.
           </h2>
         </Reveal>
-        <ul className="mt-16 divide-y divide-border border-y border-border">
+
+        <div className="mt-16 space-y-4">
           {experience.map((e, i) => (
             <Reveal key={e.role + e.company} delay={i * 0.05}>
-              <li className="group grid grid-cols-12 items-center gap-4 py-8 transition-colors hover:bg-card/40">
-                <span className="font-mono-ui col-span-12 text-xs uppercase tracking-[0.3em] text-muted-foreground md:col-span-2">
-                  {e.period}
-                </span>
-                <div className="col-span-12 md:col-span-7">
-                  <h3 className="font-display text-2xl md:text-3xl">
-                    {e.role}
-                  </h3>
-                  <p className="mt-2 text-foreground/70">{e.summary}</p>
+              <div className="group rounded-2xl border border-border/70 bg-card/30 p-6 md:p-8 transition-all hover:border-primary/40 hover:bg-card/60 backdrop-blur-sm">
+                <div className="grid gap-4 md:grid-cols-12 md:items-center">
+                  <div className="md:col-span-3">
+                    <span className="inline-block rounded-full bg-primary/10 border border-primary/20 px-3 py-1 text-xs font-mono-ui font-medium text-primary">
+                      {e.period}
+                    </span>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      {e.location}
+                    </p>
+                  </div>
+                  <div className="md:col-span-6">
+                    <h3 className="font-display text-2xl text-foreground group-hover:text-primary transition-colors">
+                      {e.role}
+                    </h3>
+                    <p className="mt-2 text-sm text-foreground/75 leading-relaxed">
+                      {e.summary}
+                    </p>
+                  </div>
+                  <div className="md:col-span-3 md:text-right">
+                    <span className="inline-block text-sm font-semibold tracking-wider text-foreground/90 uppercase">
+                      {e.company}
+                    </span>
+                  </div>
                 </div>
-                <span className="col-span-12 text-right text-sm uppercase tracking-[0.2em] text-foreground/80 md:col-span-3">
-                  {e.company}
-                </span>
-              </li>
+              </div>
             </Reveal>
           ))}
-        </ul>
-        <div className="mt-12">
+        </div>
+
+        <div className="mt-12 text-center">
           <MagneticButton to="/about" variant="ghost">
-            Full experience →
+            Explore Full Experience & Background →
           </MagneticButton>
         </div>
+      </section>
+
+      {/* CREATIVE COLLABORATION BANNER */}
+      <section className="container-px pb-20 pt-8">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-b from-card/90 to-card/40 p-8 text-center backdrop-blur-xl md:p-16">
+            <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 size-96 rounded-full bg-primary/10 blur-3xl" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-xs font-mono-ui uppercase tracking-wider text-primary">
+              <Compass className="size-3.5" />
+              <span>Let's Create Together</span>
+            </div>
+            <h2 className="font-display mt-6 text-balance text-3xl font-normal text-foreground md:text-6xl">
+              Ready to build something{" "}
+              <em className="italic text-primary">extraordinary</em>?
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-base text-foreground/80 leading-relaxed md:text-lg">
+              Open for select brand identity systems, product UI/UX design, and
+              creative direction partnerships.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center items-center gap-4">
+              <MagneticButton href={`mailto:${profile.email}`}>
+                <Mail className="size-4 mr-1 inline-block" />
+                Get In Touch →
+              </MagneticButton>
+              <MagneticButton to="/work" variant="ghost">
+                Browse Full Portfolio
+              </MagneticButton>
+            </div>
+          </div>
+        </Reveal>
       </section>
     </PageTransition>
   );
