@@ -10,8 +10,9 @@ export function Footer() {
             <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
               Have a project in mind?
             </p>
-            <h2 className="font-display mt-6 text-balance text-5xl leading-[0.95] md:text-7xl">
-              Let's build something <em className="text-primary">unforgettable</em>.
+            <h2 className="font-display mt-6 text-balance text-5xl leading-[0.95] md:text-7xl font-bold">
+              Let's build something{" "}
+              <span className="text-primary">unforgettable</span>.
             </h2>
             <a
               href={`mailto:${profile.email}`}
@@ -24,19 +25,40 @@ export function Footer() {
           <div className="md:col-span-5">
             <div className="grid grid-cols-2 gap-10">
               <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Sitemap</p>
+                <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                  Sitemap
+                </p>
                 <ul className="mt-4 space-y-2 text-sm">
-                  <li><Link to="/" className="hover:text-primary">Home</Link></li>
-                  <li><Link to="/work" className="hover:text-primary">Work</Link></li>
-                  <li><Link to="/about" className="hover:text-primary">About</Link></li>
+                  <li>
+                    <Link to="/" className="hover:text-primary">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/work" className="hover:text-primary">
+                      Work
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/about" className="hover:text-primary">
+                      About
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Elsewhere</p>
+                <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                  Elsewhere
+                </p>
                 <ul className="mt-4 space-y-2 text-sm">
                   {profile.socials.map((s) => (
                     <li key={s.label}>
-                      <a href={s.url} target="_blank" rel="noreferrer" className="hover:text-primary">
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:text-primary"
+                      >
                         {s.label}
                       </a>
                     </li>
@@ -47,7 +69,9 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-20 flex flex-col items-start justify-between gap-4 border-t border-border pt-8 text-xs uppercase tracking-[0.25em] text-muted-foreground md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} {profile.name}. All rights reserved.</span>
+          <span>
+            © {new Date().getFullYear()} {profile.name}. All rights reserved.
+          </span>
           <span>Designed & built with care.</span>
         </div>
       </div>

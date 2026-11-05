@@ -28,13 +28,38 @@ const projects = projectsData as Project[];
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: `${profile.name} — ${profile.title}` },
+      {
+        title:
+          "Shankar Gairy — Lead Creative Designer & UI/UX Specialist Portfolio",
+      },
       { name: "description", content: profile.tagline },
-      { property: "og:title", content: `${profile.name} — ${profile.title}` },
+      {
+        property: "og:title",
+        content:
+          "Shankar Gairy — Lead Creative Designer & UI/UX Specialist Portfolio",
+      },
       { property: "og:description", content: profile.tagline },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://gairyxfolio.vercel.app/" },
+      { property: "og:type", content: "website" },
+      {
+        property: "og:image",
+        content:
+          "https://gairyxfolio.vercel.app/images/New-Botlab-Brand-Guideline-Thumb.webp",
+      },
+      { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content:
+          "Shankar Gairy — Lead Creative Designer & UI/UX Specialist Portfolio",
+      },
+      { name: "twitter:description", content: profile.tagline },
+      {
+        name: "twitter:image",
+        content:
+          "https://gairyxfolio.vercel.app/images/New-Botlab-Brand-Guideline-Thumb.webp",
+      },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://gairyxfolio.vercel.app/" }],
   }),
   component: Index,
 });
@@ -63,7 +88,7 @@ function Index() {
       {/* HERO SECTION */}
       <section
         ref={heroRef}
-        className="hero-cursor-none relative flex min-h-[100svh] items-center overflow-hidden md:min-h-screen"
+        className="hero-cursor-none relative -mt-16 md:-mt-20 flex min-h-[100svh] md:min-h-screen h-[100svh] md:h-screen w-full items-center justify-center overflow-hidden"
       >
         <motion.div
           aria-hidden
@@ -75,7 +100,7 @@ function Index() {
 
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
-          className="container-px relative z-10 w-full pt-20 pb-16 md:pt-28 md:pb-24"
+          className="container-px relative z-10 w-full pt-20 pb-8 md:pt-24 md:pb-12 flex flex-col justify-center"
         >
           {/* Top Status & Location Pill */}
           <Reveal>
@@ -95,7 +120,7 @@ function Index() {
           </Reveal>
 
           {/* Main Name Display */}
-          <h1 className="font-display mt-8 max-w-full text-balance text-[clamp(2.75rem,8.5vw,9.5rem)] leading-[0.96] tracking-tight md:mt-10">
+          <h1 className="font-display mt-8 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-tight md:mt-10 font-bold">
             {profile.name.split(" ").map((word, wi, arr) => (
               <span
                 key={word + wi}
@@ -114,7 +139,7 @@ function Index() {
                   className="inline-block"
                 >
                   {wi === 1 ? (
-                    <em className="italic text-primary">{word}</em>
+                    <span className="text-primary font-bold">{word}</span>
                   ) : (
                     word
                   )}
@@ -315,9 +340,9 @@ function Index() {
               <span className="text-muted-foreground/60">/</span>
               <span>Design Philosophy</span>
             </div>
-            <h2 className="font-display mt-6 text-4xl leading-[1] md:text-6xl">
-              A designer who ships{" "}
-              <em className="italic text-primary">systems</em>, not screens.
+            <h2 className="font-display mt-6 text-4xl leading-[1] md:text-6xl font-semibold">
+              A designer who ships <span className="text-primary">systems</span>
+              , not screens.
             </h2>
             <p className="mt-6 text-base text-foreground/80 md:text-lg leading-relaxed">
               Twelve years leading creative across branding, motion, and
@@ -481,9 +506,9 @@ function Index() {
               <Compass className="size-3.5" />
               <span>Let's Create Together</span>
             </div>
-            <h2 className="font-display mt-6 text-balance text-3xl font-normal text-foreground md:text-6xl">
+            <h2 className="font-display mt-6 text-balance text-3xl font-semibold text-foreground md:text-6xl">
               Ready to build something{" "}
-              <em className="italic text-primary">extraordinary</em>?
+              <span className="text-primary">extraordinary</span>?
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-foreground/80 leading-relaxed md:text-lg">
               Open for select brand identity systems, product UI/UX design, and

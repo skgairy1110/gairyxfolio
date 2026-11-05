@@ -11,7 +11,7 @@ const projects = projectsData as Project[];
 // Maps each project's raw `category` string to a broader filter group.
 const CATEGORY_GROUPS: Record<string, string> = {
   "Brand Identity": "Branding",
-  "Branding": "Branding",
+  Branding: "Branding",
   "Branding · SaaS": "Branding",
   "UI / UX Design": "UI / UX",
   "SaaS Product Design": "UI / UX",
@@ -23,7 +23,7 @@ const CATEGORY_GROUPS: Record<string, string> = {
   "Whitepaper Design": "Print & Editorial",
   "Newsletter Design": "Print & Editorial",
   "Creative Ads": "Campaigns",
-  "Campaign": "Campaigns",
+  Campaign: "Campaigns",
   "Email Campaign": "Campaigns",
   "Event Branding": "Events",
 };
@@ -45,26 +45,70 @@ function groupOf(category?: string): string {
 }
 
 const CARD_PATTERN = [
-  "md:col-span-4", "md:col-span-2",
-  "md:col-span-2", "md:col-span-4",
-  "md:col-span-3", "md:col-span-3",
-  "md:col-span-4", "md:col-span-2",
+  "md:col-span-4",
+  "md:col-span-2",
+  "md:col-span-2",
+  "md:col-span-4",
+  "md:col-span-3",
+  "md:col-span-3",
+  "md:col-span-4",
+  "md:col-span-2",
   "md:col-span-6",
 ];
 const CARD_SIZES: ("lg" | "md" | "sm")[] = [
-  "lg", "md", "md", "lg", "md", "md", "lg", "sm", "lg",
+  "lg",
+  "md",
+  "md",
+  "lg",
+  "md",
+  "md",
+  "lg",
+  "sm",
+  "lg",
 ];
 
 export const Route = createFileRoute("/work/")({
   head: () => ({
     meta: [
-      { title: "Work — Shankar Gairy" },
-      { name: "description", content: "Selected creative direction, branding, motion and product design across SaaS, travel-tech and event work." },
-      { property: "og:title", content: "Work — Shankar Gairy" },
-      { property: "og:description", content: "Selected creative direction, branding, motion and product design." },
-      { property: "og:url", content: "/work" },
+      { title: "Selected Work & Portfolio — Shankar Gairy" },
+      {
+        name: "description",
+        content:
+          "Explore featured case studies in brand identity, UI/UX product design, editorial whitepapers, and motion graphics by Shankar Gairy.",
+      },
+      {
+        property: "og:title",
+        content: "Selected Work & Portfolio — Shankar Gairy",
+      },
+      {
+        property: "og:description",
+        content:
+          "Explore featured case studies in brand identity, UI/UX product design, editorial whitepapers, and motion graphics by Shankar Gairy.",
+      },
+      { property: "og:url", content: "https://gairyxfolio.vercel.app/work" },
+      { property: "og:type", content: "website" },
+      {
+        property: "og:image",
+        content:
+          "https://gairyxfolio.vercel.app/images/New-Botlab-Brand-Guideline-Thumb.webp",
+      },
+      { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content: "Selected Work & Portfolio — Shankar Gairy",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Explore featured case studies in brand identity, UI/UX product design, and digital systems by Shankar Gairy.",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://gairyxfolio.vercel.app/images/New-Botlab-Brand-Guideline-Thumb.webp",
+      },
     ],
-    links: [{ rel: "canonical", href: "/work" }],
+    links: [{ rel: "canonical", href: "https://gairyxfolio.vercel.app/work" }],
   }),
   component: WorkPage,
 });
@@ -97,11 +141,12 @@ function WorkPage() {
           <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
             — Index / Work
           </p>
-          <h1 className="font-display mt-8 text-balance text-7xl leading-[0.9] md:text-9xl">
-            Selected <em className="italic text-primary">work</em>.
+          <h1 className="font-display mt-6 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-tight md:mt-8 font-bold">
+            Selected <span className="text-primary">work</span>.
           </h1>
           <p className="mt-8 max-w-2xl text-lg text-foreground/70 md:text-xl">
-            A curated archive of brand systems, product launches, motion films and event design — built with global SaaS and travel-tech teams.
+            A curated archive of brand systems, product launches, motion films
+            and event design — built with global SaaS and travel-tech teams.
           </p>
         </Reveal>
       </section>
@@ -128,7 +173,11 @@ function WorkPage() {
                     <motion.span
                       layoutId="work-filter-pill"
                       className="absolute inset-0 rounded-full bg-primary"
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 32,
+                      }}
                     />
                   )}
                   <span className="relative z-10 flex items-center gap-2">
@@ -171,7 +220,10 @@ function WorkPage() {
                   className={CARD_PATTERN[i % CARD_PATTERN.length]}
                   delay={(i % 4) * 0.05}
                 >
-                  <ProjectCard project={p} size={CARD_SIZES[i % CARD_SIZES.length]} />
+                  <ProjectCard
+                    project={p}
+                    size={CARD_SIZES[i % CARD_SIZES.length]}
+                  />
                 </Reveal>
               ))
             )}

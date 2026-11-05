@@ -10,9 +10,14 @@ import { motion } from "framer-motion";
 // Clickable image object  → { "src": "/images/foo.webp", "href": "https://..." }
 // YouTube video object    → { "type": "video", "src": "https://youtube.com/embed/..." }
 
-type GalleryImage = { type?: "image"; src: string; href?: string; fullHeight?: boolean };
+type GalleryImage = {
+  type?: "image";
+  src: string;
+  href?: string;
+  fullHeight?: boolean;
+};
 type GalleryVideo = { type: "video"; src: string };
-type GalleryItem  = string | GalleryImage | GalleryVideo;
+type GalleryItem = string | GalleryImage | GalleryVideo;
 
 type Project = {
   slug: string;
@@ -45,26 +50,42 @@ export const Route = createFileRoute("/work/$slug")({
   head: ({ loaderData }) => {
     const p = loaderData?.project;
     if (!p) return { meta: [{ title: "Case Study — Shankar Gairy" }] };
-    const img  = p.cover || p.image || "";
+    const img = p.cover || p.image || "";
     const desc = p.overview || p.description || "";
+    const imgUrl = img.startsWith("http")
+      ? img
+      : `https://gairyxfolio.vercel.app${img}`;
+    const pageUrl = `https://gairyxfolio.vercel.app/work/${p.slug}`;
     return {
       meta: [
-        { title: `${p.title} — Case Study` },
+        { title: `${p.title} — Shankar Gairy Portfolio` },
         { name: "description", content: desc },
-        { property: "og:title",       content: `${p.title}${p.client ? ` — ${p.client}` : ""}` },
+        {
+          property: "og:title",
+          content: `${p.title} — Shankar Gairy Portfolio`,
+        },
         { property: "og:description", content: desc },
-        { property: "og:type",        content: "article" },
-        { property: "og:image",       content: img },
-        { property: "og:url",         content: `/work/${p.slug}` },
-        { name: "twitter:image",      content: img },
+        { property: "og:type", content: "article" },
+        { property: "og:image", content: imgUrl },
+        { property: "og:url", content: pageUrl },
+        { name: "twitter:card", content: "summary_large_image" },
+        {
+          name: "twitter:title",
+          content: `${p.title} — Shankar Gairy Portfolio`,
+        },
+        { name: "twitter:description", content: desc },
+        { name: "twitter:image", content: imgUrl },
       ],
-      links: [{ rel: "canonical", href: `/work/${p.slug}` }],
+      links: [{ rel: "canonical", href: pageUrl }],
     };
   },
   notFoundComponent: () => (
     <div className="container-px py-40 text-center">
       <h1 className="font-display text-5xl">Project not found</h1>
-      <Link to="/work" className="mt-8 inline-block text-primary underline-grow">
+      <Link
+        to="/work"
+        className="mt-8 inline-block text-primary underline-grow"
+      >
         Back to work
       </Link>
     </div>
@@ -78,7 +99,13 @@ function isVideo(item: GalleryItem): item is GalleryVideo {
   return typeof item === "object" && item.type === "video";
 }
 
-function GalleryItemRenderer({ item, index }: { item: GalleryItem; index: number }) {
+function GalleryItemRenderer({
+  item,
+  index,
+}: {
+  item: GalleryItem;
+  index: number;
+}) {
   // ── Video ──────────────────────────────────────────────────────────────────
   if (isVideo(item)) {
     return (
@@ -99,9 +126,11 @@ function GalleryItemRenderer({ item, index }: { item: GalleryItem; index: number
   }
 
   // ── Image (plain string or object with optional href) ──────────────────────
-  const src        = typeof item === "string" ? item : item.src;
-  const href       = typeof item === "string" ? undefined : (item as GalleryImage).href;
-  const fullHeight = typeof item === "string" ? false : !!(item as GalleryImage).fullHeight;
+  const src = typeof item === "string" ? item : item.src;
+  const href =
+    typeof item === "string" ? undefined : (item as GalleryImage).href;
+  const fullHeight =
+    typeof item === "string" ? false : !!(item as GalleryImage).fullHeight;
 
   const imgEl = (
     <img
@@ -117,7 +146,12 @@ function GalleryItemRenderer({ item, index }: { item: GalleryItem; index: number
     <Reveal delay={index * 0.05}>
       <div className="group overflow-hidden rounded-xl border border-border">
         {href ? (
-          <a href={href} target="_blank" rel="noopener noreferrer" className="block">
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block"
+          >
             {imgEl}
           </a>
         ) : (
@@ -132,14 +166,17 @@ function GalleryItemRenderer({ item, index }: { item: GalleryItem; index: number
 
 function CaseStudy() {
   const { project } = Route.useLoaderData() as { project: Project };
-  const idx  = projects.findIndex((p) => p.slug === project.slug);
+  const idx = projects.findIndex((p) => p.slug === project.slug);
   const next = projects[(idx + 1) % projects.length];
-  const image       = project.cover || project.image || "";
+  const image = project.cover || project.image || "";
   const description = project.overview || project.description || "";
   const processSteps: string[] = Array.isArray(project.process)
     ? project.process
     : project.process
-      ? project.process.split(/\n+/).map((s) => s.trim()).filter(Boolean)
+      ? project.process
+          .split(/\n+/)
+          .map((s) => s.trim())
+          .filter(Boolean)
       : [];
 
   return (
@@ -155,15 +192,17 @@ function CaseStudy() {
           </Link>
         </Reveal>
         <Reveal delay={0.05}>
-          <h1 className="font-display mt-10 text-balance text-6xl leading-[0.92] md:text-[8rem]">
+          <h1 className="font-display mt-8 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-tight font-bold md:mt-10">
             {project.title}
           </h1>
         </Reveal>
         <div className="mt-10 grid gap-6 border-y border-border py-8 text-sm md:grid-cols-4">
-          {project.client   && <Meta label="Client"   value={project.client} />}
+          {project.client && <Meta label="Client" value={project.client} />}
           <Meta label="Year" value={project.year} />
-          {project.role     && <Meta label="Role"     value={project.role} />}
-          {project.category && <Meta label="Category" value={project.category} />}
+          {project.role && <Meta label="Role" value={project.role} />}
+          {project.category && (
+            <Meta label="Category" value={project.category} />
+          )}
         </div>
       </section>
 
@@ -175,7 +214,11 @@ function CaseStudy() {
           transition={{ duration: 1.1, ease: [0.2, 0.7, 0.2, 1] }}
           className="relative overflow-hidden rounded-2xl border border-border"
         >
-          <img src={image} alt={project.title} className="aspect-[16/9] w-full object-cover" />
+          <img
+            src={image}
+            alt={project.title}
+            className="aspect-[16/9] w-full object-cover"
+          />
         </motion.div>
       </section>
 
@@ -183,29 +226,39 @@ function CaseStudy() {
       <section className="container-px py-12 md:py-16">
         <div className="grid gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-3">
-            <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">Overview</p>
+            <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
+              Overview
+            </p>
           </Reveal>
           <Reveal className="md:col-span-8 md:col-start-5" delay={0.1}>
-            <p className="text-balance text-xl leading-relaxed text-foreground/90">{description}</p>
+            <p className="text-balance text-xl leading-relaxed text-foreground/90">
+              {description}
+            </p>
           </Reveal>
         </div>
       </section>
 
       <Block label="Challenge" body={project.challenge} />
-      <Block label="Solution"  body={project.solution} />
+      <Block label="Solution" body={project.solution} />
 
       {/* PROCESS */}
       <section className="container-px py-10 md:py-14">
         <div className="grid gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-3">
-            <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">Design process</p>
+            <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
+              Design process
+            </p>
           </Reveal>
           <ol className="md:col-span-8 md:col-start-5">
             {processSteps.map((step, i) => (
               <Reveal key={i} delay={i * 0.05}>
                 <li className="hairline flex gap-6 py-6">
-                  <span className="font-mono-ui w-10 text-xs text-muted-foreground">0{i + 1}</span>
-                  <span className="text-lg text-foreground/90 md:text-xl">{step}</span>
+                  <span className="font-mono-ui w-10 text-xs text-muted-foreground">
+                    0{i + 1}
+                  </span>
+                  <span className="text-lg text-foreground/90 md:text-xl">
+                    {step}
+                  </span>
                 </li>
               </Reveal>
             ))}
@@ -229,11 +282,18 @@ function CaseStudy() {
         <section className="container-px py-20">
           <div className="grid gap-12 md:grid-cols-12">
             <Reveal className="md:col-span-3">
-              <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">Tools used</p>
+              <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                Tools used
+              </p>
             </Reveal>
             <ul className="flex flex-wrap gap-2 md:col-span-8 md:col-start-5">
               {project.tools.map((t) => (
-                <li key={t} className="rounded-full border border-border px-4 py-2 text-sm">{t}</li>
+                <li
+                  key={t}
+                  className="rounded-full border border-border px-4 py-2 text-sm"
+                >
+                  {t}
+                </li>
               ))}
             </ul>
           </div>
@@ -251,7 +311,9 @@ function CaseStudy() {
               className="group relative inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm font-medium uppercase tracking-[0.18em] transition-colors will-change-transform bg-primary text-primary-foreground hover:bg-primary/90"
             >
               {project.cta.label || "View Live Project"}
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
             </a>
           </Reveal>
         </section>
@@ -260,15 +322,23 @@ function CaseStudy() {
       {/* NEXT */}
       <section className="container-px py-24 md:py-32">
         <Reveal>
-          <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">Next project</p>
-          <Link to="/work/$slug" params={{ slug: next.slug }} className="group mt-6 block">
+          <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
+            Next project
+          </p>
+          <Link
+            to="/work/$slug"
+            params={{ slug: next.slug }}
+            className="group mt-6 block"
+          >
             <h2 className="font-display text-balance text-6xl leading-[0.92] transition-colors group-hover:text-primary md:text-[7rem]">
               {next.title} →
             </h2>
           </Link>
         </Reveal>
         <div className="mt-12">
-          <MagneticButton to="/work" variant="ghost">All projects →</MagneticButton>
+          <MagneticButton to="/work" variant="ghost">
+            All projects →
+          </MagneticButton>
         </div>
       </section>
     </PageTransition>
@@ -278,7 +348,9 @@ function CaseStudy() {
 function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">{label}</p>
+      <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
+        {label}
+      </p>
       <p className="mt-2 text-foreground/90">{value}</p>
     </div>
   );
@@ -289,10 +361,14 @@ function Block({ label, body }: { label: string; body: string }) {
     <section className="container-px py-10 md:py-14">
       <div className="grid gap-12 md:grid-cols-12">
         <Reveal className="md:col-span-3">
-          <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">{label}</p>
+          <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
+            {label}
+          </p>
         </Reveal>
         <Reveal className="md:col-span-8 md:col-start-5" delay={0.1}>
-          <p className="text-pretty text-xl leading-relaxed text-foreground/80">{body}</p>
+          <p className="text-pretty text-xl leading-relaxed text-foreground/80">
+            {body}
+          </p>
         </Reveal>
       </div>
     </section>
