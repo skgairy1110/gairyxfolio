@@ -4,6 +4,7 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/sitemap.xml/google3dae3ff1e1b792a3.html", "destination": "/google3dae3ff1e1b792a3.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
