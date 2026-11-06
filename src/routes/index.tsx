@@ -88,7 +88,7 @@ function Index() {
       {/* HERO SECTION */}
       <section
         ref={heroRef}
-        className="hero-cursor-none relative -mt-16 md:-mt-20 flex min-h-[100svh] md:min-h-screen h-[100svh] md:h-screen w-full items-center justify-center overflow-hidden"
+        className="hero-cursor-none relative -mt-16 md:-mt-20 flex min-h-[100svh] md:min-h-screen w-full items-center justify-center overflow-hidden"
       >
         <motion.div
           aria-hidden
@@ -150,7 +150,7 @@ function Index() {
 
           {/* Core Specialization Pills (High Readability) */}
           <Reveal delay={0.25}>
-            <div className="mt-8 flex flex-wrap items-center gap-2.5 md:gap-3">
+            <div className="mt-8 grid grid-cols-2 items-stretch gap-2.5 md:flex md:flex-wrap md:items-center md:gap-3">
               {[
                 {
                   label: "Brand Identity Systems",
@@ -165,10 +165,10 @@ function Index() {
                 return (
                   <span
                     key={item.label}
-                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs md:text-sm font-medium transition-all ${
+                    className={`inline-flex min-w-0 items-center gap-2 rounded-full border px-3 py-2 text-[10px] font-medium transition-all hover:border-primary/50 hover:bg-primary/10 hover:text-primary md:px-4 md:text-sm ${
                       item.featured
-                        ? "border border-primary/50 bg-primary/10 text-primary shadow-[0_0_24px_-8px_var(--color-primary)]"
-                        : "border border-border/80 bg-card/60 text-foreground/85 hover:border-border hover:text-foreground"
+                        ? "border-primary/50 bg-primary/10 text-primary shadow-[0_0_24px_-8px_var(--color-primary)]"
+                        : "border-border/80 bg-card/60 text-foreground/85"
                     } backdrop-blur-sm`}
                   >
                     <Icon className="size-3.5 text-primary" />
@@ -182,7 +182,7 @@ function Index() {
           {/* Narrative & Credibility Grid */}
           <div className="mt-12 grid gap-10 md:mt-16 md:grid-cols-12 md:items-end">
             <Reveal className="md:col-span-7" delay={0.35}>
-              <p className="text-pretty text-lg text-foreground/90 font-light leading-relaxed md:text-2xl">
+              <p className="text-pretty text-base text-foreground/90 font-light leading-relaxed md:text-lg">
                 Transforming complex ideas into{" "}
                 <span className="font-medium text-foreground">
                   high-impact visual identities

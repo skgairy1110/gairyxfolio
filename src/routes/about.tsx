@@ -48,7 +48,7 @@ export const Route = createFileRoute("/about")({
 function AboutPage() {
   return (
     <PageTransition>
-      <section className="container-px relative -mt-16 md:-mt-20 flex min-h-[100svh] md:min-h-screen h-[100svh] md:h-screen w-full flex-col justify-center overflow-hidden pt-20 pb-8 md:pt-24 md:pb-12">
+      <section className="container-px relative -mt-16 md:-mt-20 flex min-h-[100svh] md:min-h-screen w-full flex-col justify-center pt-20 pb-8 md:pt-24 md:pb-12">
         <div>
           <Reveal>
             <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3.5 py-1 text-xs font-mono-ui uppercase tracking-wider text-primary backdrop-blur-sm">

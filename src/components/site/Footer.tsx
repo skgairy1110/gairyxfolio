@@ -10,7 +10,7 @@ export function Footer() {
             <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
               Have a project in mind?
             </p>
-            <h2 className="font-display mt-6 text-balance text-5xl leading-[0.95] md:text-7xl font-bold">
+            <h2 className="font-display mt-6 text-balance text-[clamp(2.25rem,10vw,3rem)] leading-[0.95] md:text-7xl font-bold">
               Let's build something{" "}
               <span className="text-primary">unforgettable</span>.
             </h2>
