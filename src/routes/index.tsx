@@ -108,7 +108,7 @@ function Index() {
       {/* HERO SECTION */}
       <section
         ref={heroRef}
-        className="relative -mt-16 flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-[#050505] pt-16 md:-mt-20 md:pt-20"
+        className="relative flex h-[100svh] min-h-[100svh] w-full items-center justify-center overflow-hidden bg-[#050505] pt-16 md:pt-20"
       >
         <div
           aria-hidden
@@ -127,14 +127,14 @@ function Index() {
           className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#050505] to-transparent"
         />
 
-        <div className="container-px relative z-10 flex min-h-[calc(100svh-4rem)] w-full flex-col items-center justify-center pb-32 pt-8 text-center md:min-h-[calc(100svh-5rem)] md:pb-36">
+        <div className="hero-content container-px relative z-10 flex h-[calc(100svh-4rem)] w-full flex-col items-center justify-center pb-28 pt-6 text-center md:h-[calc(100svh-5rem)] md:pb-28 md:pt-8">
           <motion.div
             aria-hidden
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             style={{ y: photoY }}
             transition={{ duration: 1.1, ease: [0.2, 0.7, 0.2, 1] }}
-            className="relative h-[39svh] min-h-[250px] max-h-[500px] w-[min(66vw,340px)] overflow-hidden rounded-t-[50%] border-x border-t border-b-0 border-primary/15 bg-[radial-gradient(ellipse_at_50%_34%,rgba(165,208,0,0.16)_0%,rgba(28,37,4,0.78)_52%,#030502_100%)] shadow-[0_-20px_90px_-38px_rgba(165,208,0,0.34)] md:h-[49svh] md:w-[min(32vw,430px)]"
+            className="hero-portrait relative aspect-[0.88] w-[min(62vw,300px)] overflow-hidden rounded-t-[50%] border-x border-t border-b-0 border-primary/15 bg-[radial-gradient(ellipse_at_50%_34%,rgba(165,208,0,0.16)_0%,rgba(28,37,4,0.78)_52%,#030502_100%)] shadow-[0_-20px_90px_-38px_rgba(165,208,0,0.34)] md:w-[clamp(15rem,24vw,22.5rem)]"
           >
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_35%_43%,rgba(165,208,0,0.12),transparent_45%),linear-gradient(110deg,transparent_35%,rgba(165,208,0,0.1)_58%,transparent_78%)]" />
             <img
@@ -149,7 +149,7 @@ function Index() {
 
           <motion.h1
             style={{ y: nameY }}
-            className="font-display relative z-10 -mt-[clamp(4.5rem,11vh,8rem)] flex max-w-full flex-col items-center px-2 text-[clamp(2.8rem,11vw,9.5rem)] font-extrabold leading-[0.92] tracking-normal"
+            className="hero-name font-display relative z-10 -mt-[clamp(3.75rem,9vh,6rem)] flex max-w-full flex-col items-center px-2 text-[clamp(2.5rem,6vw,6.5rem)] font-extrabold leading-[0.94] tracking-normal"
           >
             {["SHANKAR", "GAIRY"].map((word, i) => (
               <motion.span
@@ -167,10 +167,10 @@ function Index() {
               </motion.span>
             ))}
           </motion.h1>
-          <p className="mt-5 text-xs tracking-wide text-[#F5F3ED]/80 md:mt-6 md:text-sm">
+          <p className="mt-4 text-xs tracking-wide text-[#F5F3ED]/80 md:mt-5 md:text-sm">
             Brand &amp; Identity Designer based in Noida
           </p>
-          <div className="mt-6 flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row md:mt-7">
+          <div className="mt-4 flex w-full max-w-sm shrink-0 flex-col items-center justify-center gap-3 sm:mt-6 sm:w-auto sm:flex-row md:mt-7">
             <div
               className="flex w-full justify-center sm:w-auto"
               data-hero-cta
@@ -193,7 +193,7 @@ function Index() {
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 z-10 bg-[#050505]/90 px-5 pb-6 pt-4 backdrop-blur-sm md:px-10 md:pb-7">
+        <div className="absolute inset-x-0 bottom-0 z-10 bg-[#050505]/90 px-5 pb-3 pt-2 backdrop-blur-sm md:px-10 md:pb-4 md:pt-3">
           <div className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
             {[
               { n: "10+", label: "Years of Craft" },
@@ -203,14 +203,14 @@ function Index() {
             ].map((item, i) => (
               <div
                 key={item.label}
-                className={`px-4 py-3 text-center md:px-6 ${i > 0 ? "md:border-l md:border-white/15" : ""} ${i % 2 === 1 ? "border-l border-white/15 md:border-l" : ""} ${i > 1 ? "border-t border-white/15 md:border-t-0" : ""}`}
+                className={`px-3 py-1 text-center md:px-6 md:py-3 ${i > 0 ? "md:border-l md:border-white/15" : ""} ${i % 2 === 1 ? "border-l border-white/15 md:border-l" : ""} ${i > 1 ? "border-t border-white/15 md:border-t-0" : ""}`}
               >
                 <p
-                  className={`font-display text-2xl font-bold tracking-normal md:text-3xl ${i === 0 || i === 3 ? "text-primary" : "text-[#F5F3ED]"}`}
+                  className={`font-display text-xl font-bold leading-none tracking-normal md:text-3xl ${i === 0 || i === 3 ? "text-primary" : "text-[#F5F3ED]"}`}
                 >
                   {item.n}
                 </p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.08em] text-[#F5F3ED]/60 md:text-[10px] md:tracking-[0.1em]">
+                <p className="mt-1 text-[9px] leading-tight uppercase tracking-[0.06em] text-[#F5F3ED]/60 md:text-[10px] md:tracking-[0.1em]">
                   {item.label}
                 </p>
               </div>
