@@ -56,7 +56,7 @@ function AboutPage() {
               <span className="text-muted-foreground/60">/</span>
               <span>About & Experience</span>
             </div>
-            <h1 className="font-display mt-6 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-tight font-bold md:mt-8">
+            <h1 className="font-display mt-6 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-normal font-bold md:mt-8">
               A designer's <span className="text-primary">decade</span>.
             </h1>
           </Reveal>

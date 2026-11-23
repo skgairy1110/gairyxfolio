@@ -1,5 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { useRef, type MouseEvent } from "react";
 import {
   ArrowUpRight,
@@ -66,20 +71,35 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const featured = projects.slice(0, 6);
-  const heroRef = useRef<HTMLDivElement>(null);
   const networkRef = useRef<ParticleNetworkHandle>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.4]);
-  const networkOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-  const networkScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const backgroundY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduceMotion ? [0, 0] : [0, 22],
+  );
+  const photoY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduceMotion ? [0, 0] : [0, -16],
+  );
+  const nameY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduceMotion ? [0, 0] : [0, -38],
+  );
 
   const onCtaEnter = (e: MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    networkRef.current?.attractTo(r.left + r.width / 2, r.top + r.height / 2);
+    const rect = e.currentTarget.getBoundingClientRect();
+    networkRef.current?.attractTo(
+      rect.left + rect.width / 2,
+      rect.top + rect.height / 2,
+    );
   };
   const onCtaLeave = () => networkRef.current?.release();
 
@@ -88,190 +108,115 @@ function Index() {
       {/* HERO SECTION */}
       <section
         ref={heroRef}
-        className="hero-cursor-none relative -mt-16 md:-mt-20 flex min-h-[100svh] md:min-h-screen w-full items-center justify-center overflow-hidden"
+        className="relative -mt-16 flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-[#050505] pt-16 md:-mt-20 md:pt-20"
       >
-        <motion.div
+        <div
           aria-hidden
-          style={{ opacity: networkOpacity, scale: networkScale }}
-          className="absolute inset-0"
+          style={{ y: backgroundY }}
+          className="pointer-events-none absolute inset-0 opacity-60"
         >
           <NeuralNetworkHero ref={networkRef} />
-        </motion.div>
+        </div>
+        <div
+          aria-hidden
+          style={{ y: backgroundY }}
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_45%_38%_at_50%_38%,rgba(165,208,0,0.13),transparent_75%)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#050505] to-transparent"
+        />
 
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="container-px relative z-10 w-full pt-20 pb-8 md:pt-24 md:pb-12 flex flex-col justify-center"
-        >
-          {/* Top Status & Location Pill */}
-          <Reveal>
-            <div className="inline-flex flex-wrap items-center gap-2.5 rounded-full border border-border/80 bg-card/70 px-4 py-1.5 backdrop-blur-md shadow-sm">
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-primary" />
-              </span>
-              <span className="font-mono-ui text-xs font-medium uppercase tracking-wider text-foreground">
-                Available for select projects
-              </span>
-              <span className="text-muted-foreground/50">•</span>
-              <span className="text-xs font-normal text-muted-foreground">
-                Lead Creative Designer · New Delhi NCR
-              </span>
-            </div>
-          </Reveal>
+        <div className="container-px relative z-10 flex min-h-[calc(100svh-4rem)] w-full flex-col items-center justify-center pb-32 pt-8 text-center md:min-h-[calc(100svh-5rem)] md:pb-36">
+          <motion.div
+            aria-hidden
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            style={{ y: photoY }}
+            transition={{ duration: 1.1, ease: [0.2, 0.7, 0.2, 1] }}
+            className="relative h-[39svh] min-h-[250px] max-h-[500px] w-[min(66vw,340px)] overflow-hidden rounded-t-[50%] border-x border-t border-b-0 border-primary/15 bg-[radial-gradient(ellipse_at_50%_34%,rgba(165,208,0,0.16)_0%,rgba(28,37,4,0.78)_52%,#030502_100%)] shadow-[0_-20px_90px_-38px_rgba(165,208,0,0.34)] md:h-[49svh] md:w-[min(32vw,430px)]"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_35%_43%,rgba(165,208,0,0.12),transparent_45%),linear-gradient(110deg,transparent_35%,rgba(165,208,0,0.1)_58%,transparent_78%)]" />
+            <img
+              src="/images/shankar-hero-portrait.png"
+              alt="Shankar Gairy wearing sunglasses and a purple jacket"
+              className="absolute bottom-0 left-1/2 h-[104%] w-auto max-w-none -translate-x-1/2 translate-y-[4%] object-contain object-bottom brightness-[0.82] contrast-[1.08] saturate-[0.82]"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-primary/10 mix-blend-color" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-[#050505] via-[#050505]/75 to-transparent" />
+            <div className="absolute inset-y-8 left-0 w-px bg-gradient-to-b from-transparent via-primary/50 to-transparent shadow-[0_0_18px_rgba(165,208,0,0.45)]" />
+          </motion.div>
 
-          {/* Main Name Display */}
-          <h1 className="font-display mt-8 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-tight md:mt-10 font-bold">
-            {profile.name.split(" ").map((word, wi, arr) => (
-              <span
-                key={word + wi}
-                className={`inline-block overflow-hidden align-bottom pb-4 -mb-4 pt-2 -mt-2 pr-4 -mr-4 ${
-                  wi < arr.length - 1 ? "mr-4 md:mr-6" : ""
-                }`}
+          <motion.h1
+            style={{ y: nameY }}
+            className="font-display relative z-10 -mt-[clamp(4.5rem,11vh,8rem)] flex max-w-full flex-col items-center px-2 text-[clamp(2.8rem,11vw,9.5rem)] font-extrabold leading-[0.92] tracking-normal"
+          >
+            {["SHANKAR", "GAIRY"].map((word, i) => (
+              <motion.span
+                key={word}
+                initial={{ y: "110%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.35 + i * 0.22,
+                  ease: [0.2, 0.7, 0.2, 1],
+                }}
+                className="whitespace-nowrap text-[#F5F3ED]"
               >
-                <motion.span
-                  initial={{ y: "125%" }}
-                  animate={{ y: 0 }}
-                  transition={{
-                    duration: 1.15,
-                    delay: 0.15 + wi * 0.12,
-                    ease: [0.2, 0.7, 0.2, 1],
-                  }}
-                  className="inline-block"
-                >
-                  {wi === 1 ? (
-                    <span className="text-primary font-bold">{word}</span>
-                  ) : (
-                    word
-                  )}
-                </motion.span>
-              </span>
+                {word}
+              </motion.span>
             ))}
-          </h1>
-
-          {/* Core Specialization Pills (High Readability) */}
-          <Reveal delay={0.25}>
-            <div className="mt-8 grid grid-cols-2 items-stretch gap-2.5 md:flex md:flex-wrap md:items-center md:gap-3">
-              {[
-                {
-                  label: "Brand Identity Systems",
-                  icon: Palette,
-                  featured: true,
-                },
-                { label: "UI / UX & Product Design", icon: Layout },
-                { label: "Motion Graphics & 3D", icon: Sparkles },
-                { label: "Print & Editorial Media", icon: Layers },
-              ].map((item) => {
-                const Icon = item.icon;
-                return (
-                  <span
-                    key={item.label}
-                    className={`inline-flex min-w-0 items-center gap-2 rounded-full border px-3 py-2 text-[10px] font-medium transition-all hover:border-primary/50 hover:bg-primary/10 hover:text-primary md:px-4 md:text-sm ${
-                      item.featured
-                        ? "border-primary/50 bg-primary/10 text-primary shadow-[0_0_24px_-8px_var(--color-primary)]"
-                        : "border-border/80 bg-card/60 text-foreground/85"
-                    } backdrop-blur-sm`}
-                  >
-                    <Icon className="size-3.5 text-primary" />
-                    {item.label}
-                  </span>
-                );
-              })}
+          </motion.h1>
+          <p className="mt-5 text-xs tracking-wide text-[#F5F3ED]/80 md:mt-6 md:text-sm">
+            Brand &amp; Identity Designer based in Noida
+          </p>
+          <div className="mt-6 flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row md:mt-7">
+            <div
+              className="flex w-full justify-center sm:w-auto"
+              data-hero-cta
+              onMouseEnter={onCtaEnter}
+              onMouseLeave={onCtaLeave}
+            >
+              <MagneticButton to="/work">Explore Work →</MagneticButton>
             </div>
-          </Reveal>
-
-          {/* Narrative & Credibility Grid */}
-          <div className="mt-12 grid gap-10 md:mt-16 md:grid-cols-12 md:items-end">
-            <Reveal className="md:col-span-7" delay={0.35}>
-              <p className="text-pretty text-base text-foreground/90 font-light leading-relaxed md:text-lg">
-                Transforming complex ideas into{" "}
-                <span className="font-medium text-foreground">
-                  high-impact visual identities
-                </span>{" "}
-                and{" "}
-                <span className="font-medium text-foreground">
-                  scalable design systems
-                </span>
-                —helping global SaaS, tech, and travel brands stand out,
-                connect, and convert.
-              </p>
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                <div
-                  data-hero-cta
-                  onMouseEnter={onCtaEnter}
-                  onMouseLeave={onCtaLeave}
-                >
-                  <MagneticButton to="/work">
-                    Explore Selected Work →
-                  </MagneticButton>
-                </div>
-                <div
-                  data-hero-cta
-                  onMouseEnter={onCtaEnter}
-                  onMouseLeave={onCtaLeave}
-                >
-                  <MagneticButton
-                    href={profile.resumeUrl}
-                    download
-                    variant="ghost"
-                  >
-                    <Download className="size-4 mr-1 inline-block" />
-                    Download Resume
-                  </MagneticButton>
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Impact Metrics Card */}
-            <Reveal className="md:col-span-5" delay={0.45}>
-              <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border/80 bg-card/50 p-6 backdrop-blur-md shadow-lg">
-                <div className="border-b border-border/50 pb-4">
-                  <p className="font-display text-3xl font-semibold text-primary md:text-4xl">
-                    10+
-                  </p>
-                  <p className="mt-1 text-xs font-medium text-foreground md:text-sm">
-                    Years Craft
-                  </p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">
-                    Brand, UI/UX, & Motion
-                  </p>
-                </div>
-                <div className="border-b border-border/50 pb-4 pl-2">
-                  <p className="font-display text-3xl font-semibold text-foreground md:text-4xl">
-                    50+
-                  </p>
-                  <p className="mt-1 text-xs font-medium text-foreground md:text-sm">
-                    Major Projects
-                  </p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">
-                    SaaS, travel-tech & events
-                  </p>
-                </div>
-                <div className="pt-2">
-                  <p className="font-display text-3xl font-semibold text-foreground md:text-4xl">
-                    100%
-                  </p>
-                  <p className="mt-1 text-xs font-medium text-foreground md:text-sm">
-                    Concept to Launch
-                  </p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">
-                    Strategy, art direction & code
-                  </p>
-                </div>
-                <div className="pt-2 pl-2">
-                  <p className="font-display text-3xl font-semibold text-primary md:text-4xl">
-                    Tier-1
-                  </p>
-                  <p className="mt-1 text-xs font-medium text-foreground md:text-sm">
-                    Global Clients
-                  </p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">
-                    BotLab, RateGain, Google & more
-                  </p>
-                </div>
-              </div>
-            </Reveal>
+            <div
+              className="flex w-full justify-center sm:w-auto"
+              data-hero-cta
+              onMouseEnter={onCtaEnter}
+              onMouseLeave={onCtaLeave}
+            >
+              <MagneticButton href={profile.resumeUrl} download variant="ghost">
+                <Download className="size-4" />
+                Download Resume
+              </MagneticButton>
+            </div>
           </div>
-        </motion.div>
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 z-10 bg-[#050505]/90 px-5 pb-6 pt-4 backdrop-blur-sm md:px-10 md:pb-7">
+          <div className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
+            {[
+              { n: "10+", label: "Years of Craft" },
+              { n: "50+", label: "Major Projects" },
+              { n: "100%", label: "Concept to Launch" },
+              { n: "Tier-1", label: "Global Clients" },
+            ].map((item, i) => (
+              <div
+                key={item.label}
+                className={`px-4 py-3 text-center md:px-6 ${i > 0 ? "md:border-l md:border-white/15" : ""} ${i % 2 === 1 ? "border-l border-white/15 md:border-l" : ""} ${i > 1 ? "border-t border-white/15 md:border-t-0" : ""}`}
+              >
+                <p
+                  className={`font-display text-2xl font-bold tracking-normal md:text-3xl ${i === 0 || i === 3 ? "text-primary" : "text-[#F5F3ED]"}`}
+                >
+                  {item.n}
+                </p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.08em] text-[#F5F3ED]/60 md:text-[10px] md:tracking-[0.1em]">
+                  {item.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* MARQUEE EXPERTISE TICKER */}

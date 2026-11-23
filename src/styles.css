@@ -2,6 +2,14 @@
 @source "../src";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: "Neutral Sans Variable";
+  src: url("/fonts/NeutralSansVF.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 /*
@@ -70,7 +78,7 @@
   --card-foreground: oklch(0.97 0.01 90);
   --popover: oklch(0.17 0.008 264);
   --popover-foreground: oklch(0.97 0.01 90);
-  --primary: oklch(0.75 0.20 120);
+  --primary: oklch(0.75 0.2 120);
   --primary-foreground: oklch(0.13 0.008 264);
   --secondary: oklch(0.22 0.01 264);
   --secondary-foreground: oklch(0.97 0.01 90);
@@ -141,7 +149,9 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-family: "Neutral Sans Variable", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.9375rem;
+    letter-spacing: 0;
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -161,33 +171,57 @@
 
 @layer utilities {
   .font-display {
-    font-family: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: "Neutral Sans Variable", ui-sans-serif, system-ui, sans-serif;
     font-optical-sizing: auto;
-    letter-spacing: -0.035em;
-  }
-  .font-mono-ui {
-    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     letter-spacing: 0;
   }
-  .text-balance { text-wrap: balance; }
-  .text-pretty { text-wrap: pretty; }
+  .font-mono-ui {
+    font-family: "Neutral Sans Variable", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
 
-  .container-px { padding-inline: clamp(1.25rem, 4vw, 4rem); }
+  .container-px {
+    padding-inline: clamp(1.25rem, 4vw, 4rem);
+  }
 
-  .hairline { border-top: 1px solid var(--color-border); }
+  .hairline {
+    border-top: 1px solid var(--color-border);
+  }
 
   .noise {
     background-image:
-      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.04) 0, transparent 1px),
-      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.03) 0, transparent 1px),
-      radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.03) 0, transparent 1px);
-    background-size: 240px 240px, 320px 320px, 200px 200px;
+      radial-gradient(
+        1px 1px at 20% 30%,
+        rgba(255, 255, 255, 0.04) 0,
+        transparent 1px
+      ),
+      radial-gradient(
+        1px 1px at 70% 60%,
+        rgba(255, 255, 255, 0.03) 0,
+        transparent 1px
+      ),
+      radial-gradient(
+        1px 1px at 40% 80%,
+        rgba(255, 255, 255, 0.03) 0,
+        transparent 1px
+      );
+    background-size:
+      240px 240px,
+      320px 320px,
+      200px 200px;
   }
 
   .glow-ring {
     box-shadow:
       0 0 0 1px color-mix(in oklab, var(--color-primary) 25%, transparent),
-      0 30px 80px -20px color-mix(in oklab, var(--color-primary) 25%, transparent);
+      0 30px 80px -20px
+        color-mix(in oklab, var(--color-primary) 25%, transparent);
   }
 
   .marquee {
@@ -196,8 +230,12 @@
     animation: marquee 38s linear infinite;
   }
   @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   .underline-grow {
@@ -205,14 +243,20 @@
     background-size: 0% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
-    transition: background-size 0.4s cubic-bezier(.2,.7,.2,1);
+    transition: background-size 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
-  .underline-grow:hover { background-size: 100% 1px; }
+  .underline-grow:hover {
+    background-size: 100% 1px;
+  }
 
   /* Hero — Neural Creative Network */
   .hero-vignette {
     background:
-      radial-gradient(130% 100% at 50% 35%, oklch(0.04 0.01 264 / 0.4) 0%, oklch(0.03 0.01 264 / 0.8) 100%),
+      radial-gradient(
+        130% 100% at 50% 35%,
+        oklch(0.04 0.01 264 / 0.4) 0%,
+        oklch(0.03 0.01 264 / 0.8) 100%
+      ),
       linear-gradient(to bottom, transparent 0%, var(--color-background) 100%);
   }
 
@@ -251,21 +295,38 @@
     animation: atmosphere-pulse 9s ease-in-out infinite;
   }
   @keyframes atmosphere-drift-a {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(8%, 6%) scale(1.12); }
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(8%, 6%) scale(1.12);
+    }
   }
   @keyframes atmosphere-drift-b {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-6%, -8%) scale(1.08); }
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-6%, -8%) scale(1.08);
+    }
   }
   @keyframes atmosphere-pulse {
-    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.1; }
-    50% { transform: translateX(-50%) scale(1.18); opacity: 0.2; }
+    0%,
+    100% {
+      transform: translateX(-50%) scale(1);
+      opacity: 0.1;
+    }
+    50% {
+      transform: translateX(-50%) scale(1.18);
+      opacity: 0.2;
+    }
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .hero-cursor-none { cursor: none; }
+    .hero-cursor-none {
+      cursor: none;
+    }
   }
 }
-
-

@@ -192,7 +192,7 @@ function CaseStudy() {
           </Link>
         </Reveal>
         <Reveal delay={0.05}>
-          <h1 className="font-display mt-8 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-tight font-bold md:mt-10">
+          <h1 className="font-display mt-8 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-normal font-bold md:mt-10">
             {project.title}
           </h1>
         </Reveal>

@@ -141,7 +141,7 @@ function WorkPage() {
           <p className="font-mono-ui text-xs uppercase tracking-[0.3em] text-muted-foreground">
             — Index / Work
           </p>
-          <h1 className="font-display mt-6 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-tight md:mt-8 font-bold">
+          <h1 className="font-display mt-6 max-w-full text-balance text-[clamp(2.75rem,8.2vw,9rem)] leading-[0.96] tracking-normal md:mt-8 font-bold">
             Selected <span className="text-primary">work</span>.
           </h1>
           <p className="mt-8 max-w-2xl text-lg text-foreground/70 md:text-xl">

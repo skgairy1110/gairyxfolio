@@ -55,9 +55,9 @@ const CONFIG = {
 
   // Faint connection lines, only ever drawn between particles that are both
   // inside the interaction radius.
-  connectionDistance: 85,
-  maxConnectionsPerParticle: 3,
-  connectionOpacity: 0.14,
+  connectionDistance: 120,
+  maxConnectionsPerParticle: 4,
+  connectionOpacity: 0.32,
 
   // Resting particle look.
   sizeRange: [0.6, 1.6] as [number, number],
@@ -351,7 +351,7 @@ export const GravityField = forwardRef<
       // Sparse connection lines — only among particles already inside the
       // interaction radius, capped per-particle so it never becomes a web.
       if (gravityEnabled && activeIdx.length > 1) {
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.2;
         const degree = new Map<number, number>();
         for (let a = 0; a < activeIdx.length; a++) {
           const i = activeIdx[a];

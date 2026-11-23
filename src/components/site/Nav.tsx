@@ -44,7 +44,7 @@ export function Nav() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-10 text-xs uppercase tracking-[0.2em] md:flex">
+        <nav className="hidden items-center gap-10 text-xs uppercase tracking-normal md:flex">
           {links.map((l) => (
             <Link
               key={l.to}
@@ -61,7 +61,7 @@ export function Nav() {
         {/* Desktop CTA */}
         <a
           href={`mailto:${profile.email}`}
-          className="hidden text-xs uppercase tracking-[0.2em] text-foreground/70 transition-colors hover:text-primary md:inline-flex"
+          className="hidden text-xs uppercase tracking-normal text-foreground/70 transition-colors hover:text-primary md:inline-flex"
         >
           Let's Talk →
         </a>
@@ -102,7 +102,7 @@ export function Nav() {
               key={l.to}
               to={l.to}
               activeOptions={{ exact: l.to === "/" }}
-              className="font-display py-4 text-4xl text-foreground/60 transition-colors hover:text-foreground"
+              className="py-4 text-4xl tracking-normal text-foreground/60 transition-colors hover:text-foreground"
               activeProps={{ className: "text-primary" }}
               onClick={() => setMenuOpen(false)}
             >
@@ -111,7 +111,7 @@ export function Nav() {
           ))}
           <a
             href={`mailto:${profile.email}`}
-            className="mt-6 text-xs uppercase tracking-[0.2em] text-foreground/50 transition-colors hover:text-primary"
+            className="mt-6 text-xs uppercase tracking-normal text-foreground/50 transition-colors hover:text-primary"
             onClick={() => setMenuOpen(false)}
           >
             Let's Talk →

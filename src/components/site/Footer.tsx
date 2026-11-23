@@ -73,6 +73,14 @@ export function Footer() {
             © {new Date().getFullYear()} {profile.name}. All rights reserved.
           </span>
           <span>Designed & built with care.</span>
+          <a
+            href="https://gairystudio.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors hover:text-primary"
+          >
+            Developed by Gairy Studio ↗
+          </a>
         </div>
       </div>
     </footer>
