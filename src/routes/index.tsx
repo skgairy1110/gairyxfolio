@@ -168,7 +168,7 @@ function Index() {
             ))}
           </motion.h1>
           <p className="mt-4 text-xs tracking-wide text-[#F5F3ED]/80 md:mt-5 md:text-sm">
-            Brand &amp; Identity Designer based in Noida
+            Lead Creative Designer | UI/UX Specialist
           </p>
           <div className="mt-4 flex w-full max-w-sm shrink-0 flex-col items-center justify-center gap-3 sm:mt-6 sm:w-auto sm:flex-row md:mt-7">
             <div
@@ -194,19 +194,18 @@ function Index() {
         </div>
 
         <div className="absolute inset-x-0 bottom-0 z-10 bg-[#050505]/90 px-5 pb-3 pt-2 backdrop-blur-sm md:px-10 md:pb-4 md:pt-3">
-          <div className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
+          <div className="mx-auto grid max-w-6xl grid-cols-3">
             {[
               { n: "10+", label: "Years of Craft" },
               { n: "50+", label: "Major Projects" },
               { n: "100%", label: "Concept to Launch" },
-              { n: "Tier-1", label: "Global Clients" },
             ].map((item, i) => (
               <div
                 key={item.label}
-                className={`px-3 py-1 text-center md:px-6 md:py-3 ${i > 0 ? "md:border-l md:border-white/15" : ""} ${i % 2 === 1 ? "border-l border-white/15 md:border-l" : ""} ${i > 1 ? "border-t border-white/15 md:border-t-0" : ""}`}
+                className={`px-1 py-1 text-center md:px-6 md:py-3 ${i > 0 ? "border-l border-white/15" : ""}`}
               >
                 <p
-                  className={`font-display text-xl font-bold leading-none tracking-normal md:text-3xl ${i === 0 || i === 3 ? "text-primary" : "text-[#F5F3ED]"}`}
+                  className={`font-display text-xl font-bold leading-none tracking-normal md:text-3xl ${i === 0 ? "text-primary" : "text-[#F5F3ED]"}`}
                 >
                   {item.n}
                 </p>
